@@ -6,8 +6,21 @@ const Author = require('../models/author')
 // * GET All Authors Route
 // @description         show all authors
 // methods              rendering ./views/authors/index.ejs view
-router.get('/', (req, res) => {
-  res.render('authors/index')
+router.get('/', async (req, res) => {
+  const searchOptions = {}
+  if (req.query.name != null && req.query.name !== '') {
+    searchOptions.name = new RegExp(req.query.name, 'i')
+  }
+  try {
+    const authors = await Author.find(searchOptions)
+    res.render('authors/index', {
+      authors,
+      searchOptions: req.query.name
+    })
+  } catch (error) {
+    console.log(`err ${error}`) // ! DEV
+    res.redirect('/')
+  }
 })
 
 // * GET New Author form
