@@ -1,23 +1,45 @@
 const express = require('express')
 const router = express.Router()
+// MODEL
+const Author = require('../models/author')
 
-// All Authors Routes
-// @description         GET all authors
+// * GET All Authors Route
+// @description         show all authors
 // methods
 router.get('/', (req, res) => {
   res.render('authors/index')
 })
 
-// New Author Route
-// @description         create new author with a form
+// * GET New Author form
+// @description         create a new author with a form in the front-end
+// @method              rendering ./views/authors/new.ejs view
 router.get('/new', (req, res) => {
-  res.render('authors/new')
+  res.render('authors/new', {
+    author: new Author()
+  })
 })
 
-// Create New Author API endpoint
+// * POST New Author API endpoint
 // @description         create new author endpoint
+// @method              Model.save()
 router.post('/', (req, res) => {
-  res.send('Create')
+  const author = new Author({
+    name: req.body.name
+  })
+  // save newAuthor to DB
+  author.save((err, newAuthor) => {
+    if (err) {
+      // console.log(`err ${err}`) // ! DEV
+      // TODO use error message from moongose model
+      res.render('authors/new', {
+        author: author,
+        errorMessage: 'Error creating Author'
+      })
+    } else {
+      // res.redirect(`authors/${newAuthor.id}`)
+      res.redirect('authors')
+    }
+  })
 })
 
 module.exports = router
