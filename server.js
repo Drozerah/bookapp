@@ -5,6 +5,7 @@ const path = require('path')
 const connectDB = require('./config/db')
 
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
@@ -15,6 +16,7 @@ app.use(express.static('public'))
 connectDB()
 
 app.use('/', indexRouter)
+app.use('/authors', authorRouter)
 
 const port = process.env.PORT || 8081
 app.listen(port, () => {
