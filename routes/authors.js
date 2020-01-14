@@ -5,7 +5,7 @@ const Author = require('../models/author')
 
 // * GET All Authors Route
 // @description         show all authors
-// methods
+// methods              rendering ./views/authors/index.ejs view
 router.get('/', (req, res) => {
   res.render('authors/index')
 })
@@ -22,24 +22,23 @@ router.get('/new', (req, res) => {
 // * POST New Author API endpoint
 // @description         create new author endpoint
 // @method              Model.save()
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const author = new Author({
     name: req.body.name
   })
-  // save newAuthor to DB
-  author.save((err, newAuthor) => {
-    if (err) {
-      // console.log(`err ${err}`) // ! DEV
-      // TODO use error message from moongose model
-      res.render('authors/new', {
-        author: author,
-        errorMessage: 'Error creating Author'
-      })
-    } else {
-      // res.redirect(`authors/${newAuthor.id}`)
-      res.redirect('authors')
-    }
-  })
+  try {
+    // eslint-disable-next-line no-unused-vars
+    const newAuthor = await author.save()
+    // res.redirect(`authors/${newAuthor.id}`)
+    res.redirect('authors')
+  } catch (error) {
+    console.log(`err ${error}`) // ! DEV
+    // TODO use error message from moongose model
+    res.render('authors/new', {
+      author: author,
+      errorMessage: 'Error creating Author'
+    })
+  }
 })
 
 module.exports = router
