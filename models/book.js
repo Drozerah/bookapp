@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const coverImageBasePath = 'uploads/bookCovers'
 
 // Creat books db collection
 const bookSchema = new mongoose.Schema({
@@ -34,3 +35,4 @@ const bookSchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Book', bookSchema)
+module.exports.coverImageBasePath = coverImageBasePath
