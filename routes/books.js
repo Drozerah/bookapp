@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-// MODEL
+// MODELS
 const Book = require('../models/book')
+const Author = require('../models/author')
 
 // * GET All Books Route
 // @description         show all books
@@ -13,8 +14,18 @@ router.get('/', async (req, res) => {
 // * GET New Books form
 // @description         create a new book with a form in the front-end
 // @method              rendering ./views/books/new.ejs view
-router.get('/new', (req, res) => {
-  res.send('New Book')
+// @redirection         ./books all books page
+router.get('/new', async (req, res) => {
+  try {
+    const authors = await Author.find({})
+    const book = new Book()
+    res.render('books/new', {
+      authors,
+      book
+    })
+  } catch (error) {
+    res.redirect('/books')
+  }
 })
 
 // * POST New Books API endpoint
