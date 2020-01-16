@@ -1,1 +1,7 @@
-<div>Welcome to the home page</div>
+<h2>Recently Added</h2>
+<div>
+  <%# Display books cover image %> 
+  <% books.forEach(book => { %>
+    <img src="<%= book.coverImagePath %>" alt="book cover" style="width:12%; heigth:auto;">  
+  <% }) %>
+</div>

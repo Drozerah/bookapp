@@ -1,14 +1,25 @@
-<h2>Search Authors</h2>
-<form action="/authors" method='GET'>
-<label for="name">Name</label>
-<% if ( searchOptions ) { %>
-<input type="text" name="name" value="<%= searchOptions.name %>">
-<% } else { %>
-<input type="text" name="name" value="">
-<% } %>
-<button type="submit">Search</button>
+<h2>Search Book</h2>
+<form action="/books" method='GET'>
+  <div>
+    <%# Title field %> 
+    <label for="title">Title</label>
+    <input type="text" name="title" value="<%= typeof searchOptions.title === 'undefined' ? '' : searchOptions.title %>">
+  </div>
+  <div>
+    <%# Published After field %> 
+    <label for="publishedAfter">Published After</label>
+    <input type="date" name="publishedAfter" value="<%= typeof searchOptions.publishedAfter === 'undefined' ? '' : searchOptions.publishedAfter %>">
+  </div>
+  <div>
+    <%# Published before field %> 
+    <label for="publishedBefore">Published Before</label>
+    <input type="date" name="publishedBefore" value="<%= typeof searchOptions.publishedBefore === 'undefined' ? '' : searchOptions.publishedBefore %>">
+  </div>
+  <button type="submit">Search</button>
 </form>
-<br>
-<% authors.forEach(author => { %>
- <div><%= author.name %> </div>
-<% }) %>
+<div>
+  <%# Display books cover image %> 
+  <% books.forEach(book => { %>
+    <img src="<%= book.coverImagePath %>" alt="book cover" style="width:12%; heigth:auto;">  
+  <% }) %>
+</div>
